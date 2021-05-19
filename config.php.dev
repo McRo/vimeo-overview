@@ -1,0 +1,12 @@
+
+<?php
+
+  $client_id = "";
+  $client_secret = "";
+  $access_token = "";
+
+  $auth_url = "https://api.vimeo.com/oauth/authorize";
+  $access_token_url = "https://api.vimeo.com/oauth/access_token";
+
+
+ ?>

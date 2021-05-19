@@ -1,0 +1,8 @@
+# Ignore files
+
+# PHP
+vendor/
+config.php
+*.lock
+
+
