@@ -1,48 +1,58 @@
-<?php
-require_once 'config.php';
-require 'vendor/autoload.php';
-
-function console($data) {
-    echo("<script>");
-    //echo("console.log('PHP DEBUG');");
-    echo("console.log(".json_encode($data).");");
-    echo("</script>");
-}
+<!DOCTYPE html>
+<html>
 
 
-use Vimeo\Vimeo;
+<script src="scripts/js/jquery-3.5.1.min.js" ></script>
+<script src="scripts/js/overview.js?n=<?=rand(0,27)?>" ></script>
 
-$client = new Vimeo($client_id, $client_secret, $access_token);
-
-$uri = "/me/albums?per_page=100";
-
-$uri = "/me/videos/";
-
-$paging = 1;
-$arg = ['per_page' => $paging];
-$req = $client->request($uri, $arg, "GET");
-
-console($req["body"]);
-$i = 0;
-$istop = 2;
-
-$videos = [];
-
-while ($uri) {
-
-    $videos = array_merge($videos, $req["body"]["data"]);
-    
-    $uri = $req["body"]["paging"]["next"];
-    $req = $client->request($uri, [], "GET");
-
-    if($i >= $istop){
-        console(" break $i");
-        break;
+<style>
+    thead{
+        position: sticky;
+        top:0;
+        background:white;
     }
-}
+    .baseline{
+        display:none;
+    }
 
-console("videos");
-console($videos);
+</style>
+<?php
 
+    if(isset($_GET['refresh'])){
+        array_map( 'unlink', array_filter((array) glob("./data/*") ) );
+    };
 
 ?>
+
+
+<body>
+    <a href="?refresh">Rafraichir les infos</a>
+
+    <table>
+        <thead>
+        <tr class="">
+            <td>id</td>
+            <td>Nom</td>
+            <td>Liens</td>
+            <td>Password</td>
+            <td>Privacy</td>
+            <td>Manage</td>
+        </tr>
+        </thead>
+        <tr class="baseline">
+            <td class="id"></td>
+            <td class="name"></td>
+            <td class="links"></td>
+            <td class="password"></td>
+            <td class="privacy"></td>
+            <td class="manage"></td>
+
+        </tr>
+
+
+</body>
+
+
+
+
+</html>
