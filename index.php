@@ -31,8 +31,10 @@
     <table>
         <thead>
         <tr class="">
-            <td>id</td>
+            <!-- <td>id</td> -->
+            <td>Mise en ligne</td>
             <td>Nom</td>
+            <td>Durée</td>
             <td>Liens</td>
             <td>Password</td>
             <td>Privacy</td>
@@ -40,8 +42,10 @@
         </tr>
         </thead>
         <tr class="baseline">
-            <td class="id"></td>
+            <!-- <td class="id"></td> -->
+            <td class="upload_date"></td>
             <td class="name"></td>
+            <td class="duration"></td>
             <td class="links"></td>
             <td class="password"></td>
             <td class="privacy"></td>
