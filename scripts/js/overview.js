@@ -23,7 +23,6 @@ function init() {
     // console.log("init")
     getData();
 
-
 }
 
 
@@ -37,11 +36,12 @@ function getData(){
     $.post(url, {"uri":vimeo_baseurl, "paging": paging, "page": page },
         function(response){
 
-            console.log(response);
-
             var data = response.body.data;
             var paging = response.body.paging;
             var next = paging.next;
+
+
+            updateLoader(response.body);
 
             data.forEach((video, index) => {
 
@@ -58,6 +58,14 @@ function getData(){
         "json"
 
     )
+
+}
+
+function updateLoader(data){
+
+    totalpages = Math.round(data.total / data.per_page);
+    loading = data.page < totalpages ? data.page + " / " + totalpages : ''
+    $(".loader").text( loading ) ;
 
 }
 
@@ -91,3 +99,40 @@ function displayInfos(elt, data){
     elt.find(".manage").html("<a href='https://vimeo.com"+data.manage_link+"' target='_blank'>manage</a>");
 
 }
+
+
+function getCSV() {
+
+    csvContent = ""
+    csv = []
+    for (line of document.querySelectorAll("table tr")){
+        row = []
+        for (col of line.querySelectorAll("td")){
+            // keep links
+            t = $(col).html().replace(/<a href="(https?:\/\/[a-zA-Z0-9]+\.[^\s]{2,})+"[^>]+>([a-z]+)<\/a>/gm, '$2 : "$1"')
+            // convert to jquery
+            t = $("<div>"+t+"</div>");
+            // strip html
+            t = t.text().trim();
+
+            row.push(t)
+        }
+        csv.push(row.join(";"))
+    }
+
+    // UTF8 BOM
+    csvContent += "\ufeff"+csv.join('\n')
+    csvFile  = new Blob([csvContent], {type: "text/csv;charset=utf-8"})
+    url = window.URL.createObjectURL(csvFile)
+
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    a.href = url;
+    a.download = "vimeo.csv";
+    a.click();
+
+
+
+
+  }

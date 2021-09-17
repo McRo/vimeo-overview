@@ -26,9 +26,11 @@
 
 
 <body>
+    <span class="loader"></span>
     <a href="?refresh">Rafraichir les infos</a>
+    <button onclick="javaScript:getCSV()">Télécharger</button>
 
-    <table>
+    <table id="coucou">
         <thead>
         <tr class="">
             <!-- <td>id</td> -->
