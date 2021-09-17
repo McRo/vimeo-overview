@@ -21,18 +21,14 @@ function duplicate(){
 
 function init() {
     // console.log("init")
-    getData();
+    getVideos();
 
 }
 
 
-function getData(){
+function getVideos(){
     var url = "scripts/php/getVideo.php";
-    /*
-    if(uri.indexOf("20")>=0){
-        return
-    }
-    */
+
     $.post(url, {"uri":vimeo_baseurl, "paging": paging, "page": page },
         function(response){
 
@@ -44,13 +40,15 @@ function getData(){
             updateLoader(response.body);
 
             data.forEach((video, index) => {
-
                 elt = duplicate();
                 displayInfos(elt, video)
+
+                video_id  = video.uri;
+                setAlbums(video_id, elt)
             })
             if(next){
                 page++;
-                getData();
+                getVideos();
             }
 
 
@@ -59,6 +57,24 @@ function getData(){
 
     )
 
+}
+
+function setAlbums(video_id, elt){
+    var url = "scripts/php/getVideo.php";
+
+    $.post(url, {"uri":""+video_id+"/albums", "paging": 1, "page": 1 },
+
+        function(response){
+              var albums = response.body.data;
+
+              albums.forEach((album, item) =>  {
+
+                  elt.find(".album").append(album.name);
+
+              })
+          },
+          "json"
+    )
 }
 
 function updateLoader(data){

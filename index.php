@@ -35,6 +35,7 @@
         <tr class="">
             <!-- <td>id</td> -->
             <td>Mise en ligne</td>
+            <td>Album</td>
             <td>Nom</td>
             <td>Durée</td>
             <td>Liens</td>
@@ -46,6 +47,7 @@
         <tr class="baseline">
             <!-- <td class="id"></td> -->
             <td class="upload_date"></td>
+            <td class="album"></td>
             <td class="name"></td>
             <td class="duration"></td>
             <td class="links"></td>
