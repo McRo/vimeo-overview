@@ -27,7 +27,7 @@
 
 <body>
     <span class="loader"></span>
-    <a href="?refresh">Rafraichir les infos</a>
+    <a class="refresh" href="?refresh">Rafraichir les infos</a>
     <button onclick="javaScript:getCSV()">Télécharger</button>
 
     <table id="coucou">

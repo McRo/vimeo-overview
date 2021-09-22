@@ -31,12 +31,11 @@ function getVideos(){
 
     $.post(url, {"uri":vimeo_baseurl, "paging": paging, "page": page },
         function(response){
+            dataValidation(response);
 
             var data = response.body.data;
             var paging = response.body.paging;
             var next = paging.next;
-
-
 
             updateLoader(response.body);
 
@@ -71,6 +70,8 @@ function setAlbums(video_id, elt){
     $.post(url, {"uri":""+video_id+"/albums", "paging": 1, "page": 1 },
 
         function(response){
+              dataValidation(response);
+
               var albums = response.body.data;
 
               albums.forEach((album, item) =>  {
@@ -90,7 +91,10 @@ function setPicture(video_id, elt){
     $.post(url, {"uri":""+video_id+"/pictures", "paging": 1, "page": 1 },
 
         function(response){
+              dataValidation(response);
+
               var pictures = response.body.data.pop();
+
               // console.log(pictures)
 
               let img = pictures.sizes[0].link;
@@ -105,6 +109,18 @@ function setPicture(video_id, elt){
           },
           "json"
     )
+}
+
+
+function dataValidation(response){
+
+  if(response.status == 429) {
+    $(".loader").text( " Erreur de quota, réessai dans 1 minute !" ) ;
+    $(".refresh").hide();
+    console.log("Quota exceed try later ! ")
+    throw new Error("Quota exceed try later !");
+    return;
+  }
 }
 
 function updateLoader(data){
