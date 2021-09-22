@@ -37,14 +37,20 @@ function getVideos(){
             var next = paging.next;
 
 
+
             updateLoader(response.body);
 
             data.forEach((video, index) => {
                 elt = duplicate();
                 displayInfos(elt, video)
 
+
+
                 video_id  = video.uri;
                 setAlbums(video_id, elt)
+                // video.pictures : bad pictures
+                // => load pictures
+                setPicture(video_id, elt)
             })
             if(next){
                 page++;
@@ -77,6 +83,30 @@ function setAlbums(video_id, elt){
     )
 }
 
+
+function setPicture(video_id, elt){
+    var url = "scripts/php/getVideo.php";
+
+    $.post(url, {"uri":""+video_id+"/pictures", "paging": 1, "page": 1 },
+
+        function(response){
+              var pictures = response.body.data.pop();
+              // console.log(pictures)
+
+              let img = pictures.sizes[0].link;
+              elt.find(".picture").html("<img src='"+img+"' />");
+              /*
+              pictures.forEach((picture, item) =>  {
+
+                console.log(picture)
+
+              })
+              */
+          },
+          "json"
+    )
+}
+
 function updateLoader(data){
 
     totalpages = Math.round(data.total / data.per_page);
@@ -95,6 +125,8 @@ function displayInfos(elt, data){
 
     // nmae
     elt.find(".name").html(data.name);
+
+    //
 
     // duration in second to hh:mm:ss
     var duration = new Date(0);
