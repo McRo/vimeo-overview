@@ -74,8 +74,8 @@ function getVideos(){
 
             var data = response.body.data;
             var paging = response.body.paging;
-            console.log(data)
-            var next = false; // paging.next;
+            // console.log(data)
+            var next = paging.next;
 
             updateLoader(response.body);
 
