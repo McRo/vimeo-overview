@@ -22,8 +22,47 @@ function duplicate(){
 function init() {
     // console.log("init")
     getVideos();
+    $("#find").keyup(function() { highLight(  $("table"), $(this).val().toLowerCase()  )   });
 
 }
+
+
+
+
+function highLight(scope, str ) {
+
+    if(str!="")
+    {
+        // Cache les sections et articles qui ne comportent pas le champ recherché
+        searchAndHide(scope, 'tr.video', str);
+    }
+
+    else
+    {
+        $(scope).find('tr.video').show();
+
+    }
+}
+
+function searchAndHide(scope, balise, str) {
+
+
+    $(scope).find(balise).each(function() {
+
+        var txt = $(this).text().toLowerCase();
+        if(txt.indexOf(str)>-1)
+        {
+            $(this).show();
+
+        }
+        else {
+            $(this).hide();
+        }
+    });
+
+}
+
+
 
 
 function getVideos(){
@@ -35,7 +74,8 @@ function getVideos(){
 
             var data = response.body.data;
             var paging = response.body.paging;
-            var next = paging.next;
+            console.log(data)
+            var next = false; // paging.next;
 
             updateLoader(response.body);
 
