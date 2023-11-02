@@ -133,11 +133,13 @@ function setPicture(video_id, elt){
         function(response){
               if(!dataValidation(response)) return;
 
-              var pictures = response.body.data.pop();
+               
 
-              // console.log(pictures)
+              var pictures = response.body.data.reverse().pop();
 
-              let img = pictures.sizes[0].link;
+              // console.log(response.body.data)
+
+              let img = pictures.sizes.reverse().pop().link;
               elt.find(".picture").html("<img src='"+img+"' />");
               /*
               pictures.forEach((picture, item) =>  {
